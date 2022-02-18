@@ -54,8 +54,10 @@ def plot_data(x, y, headers, title):
 
 # DETECT HORIZONTAL ASYMPTOTE APPROACHED FROM BELOW
 def critical_temperature(data):
-	x = [ -val for val in data["temperature"]]
-	y = data["voltage superconductor"]
+	freq = 1
+	x = data["temperature"]#[ data["temperature"][i] for i in range(len(data["temperature"])) if i%freq == 0]
+	y = data["voltage superconductor"]#[ data["voltage superconductor"][i] for i in range(len(data["voltage superconductor"])) if i%freq == 0]
+	time = data["time"]
 	asymptote = 10000
 	for value in y:
 		asymptote = min(asymptote, value)
@@ -63,7 +65,8 @@ def critical_temperature(data):
 	i = y.index(asymptote)
 
 	Tc = x[i]
-	return Tc
+	tc = time[i]
+	return Tc, tc
 
 if __name__ == "__main__":
 	filename = str(sys.argv[1])
@@ -96,8 +99,8 @@ if __name__ == "__main__":
 		},
 		"Superconductor Voltage VS Time",
 		)
-
-	print("The transition temperature Tc is:", critical_temperature(data), "ºC")
+	Tc, tc = critical_temperature(data)
+	print("The transition temperature Tc is:", Tc, "ºC, at t =", tc, "s")
 
 
 
