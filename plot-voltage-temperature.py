@@ -11,8 +11,6 @@ def get_data(filename):
 	f.close()
 
 	lines = re.sub(',', '.', lines)
-	#h = re.findall(r'[^\=]{0,5}\=[^\n]+\n', lines)
-	#h = h[4].split('\t')
 
 	lines = re.sub(r'[^\=]{0,5}\=[^\n]+\n', r'', lines)
 	data = {
@@ -36,7 +34,6 @@ import matplotlib.ticker as ticker
 
 def plot_data(x, y, headers, title):
 	fig, ax = plt.subplots()
-	#ax.scatter(x,y,color='b',linewidths=1)
 	ax.plot(x,y,color='b')
 	ax.set_xlabel(headers["x"])
 	ax.set_ylabel(headers["y"])
@@ -52,11 +49,10 @@ def plot_data(x, y, headers, title):
 
 	plt.show()
 
-# DETECT HORIZONTAL ASYMPTOTE APPROACHED FROM BELOW
 def critical_temperature(data):
 	freq = 1
-	x = data["temperature"]#[ data["temperature"][i] for i in range(len(data["temperature"])) if i%freq == 0]
-	y = data["voltage superconductor"]#[ data["voltage superconductor"][i] for i in range(len(data["voltage superconductor"])) if i%freq == 0]
+	x = data["temperature"]
+	y = data["voltage superconductor"]
 	time = data["time"]
 	asymptote = 10000
 	for value in y:
@@ -99,7 +95,9 @@ if __name__ == "__main__":
 		},
 		"Superconductor Voltage VS Time",
 		)
+	
 	Tc, tc = critical_temperature(data)
+	
 	print("The transition temperature Tc is:", Tc, "ºC, at t =", tc, "s")
 
 
